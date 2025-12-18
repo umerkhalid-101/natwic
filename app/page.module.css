@@ -1,53 +1,67 @@
 .page{
   min-height: 100vh;
   background: #fff;
+  overflow-x: hidden;
 }
 
 .hero{
   position: relative;
   overflow: hidden;
+
+  /* make hero a real canvas */
+  min-height: calc(100vh - 86px); /* header height-ish */
 }
+
 
 /* MAIN CANVAS */
 .canvas{
   max-width: 1440px;
   margin: 0 auto;
-  padding: 140px 56px 90px;
   position: relative;
-  min-height: 78vh;
+  height: calc(100vh - 86px);
+
+  /* kill horizontal padding */
+  padding-right: 56px;
 }
+
 
 /* LEFT COLUMN — FIXED WIDTH LIKE REFERENCE */
 .left{
-  width: 560px;
-  position: relative;
+  width: 640px;
+  position: absolute;
+  left: 0;
+  bottom: 64px;
   z-index: 2;
 }
 
+
+
 .h1{
-  margin: 0 0 22px;
-  font-size: 86px;
-  line-height: 0.97;
-  letter-spacing: -0.055em;
-  font-weight: 600;
+  margin: 0 0 20px;
+  font-size: clamp(42px, 4.2vw, 60px);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  font-weight: 500;
   color: #111;
+  max-width: 20ch;
 }
 
 .p{
   margin: 0 0 12px;
   font-size: 15px;
-  line-height: 1.75;
+  line-height: 1.7;
   color: rgba(0,0,0,0.55);
   max-width: 52ch;
 }
 
 .p2{
-  margin: 0 0 26px;
+  margin: 0 0 28px;
   font-size: 14px;
-  line-height: 1.75;
-  color: rgba(0,0,0,0.50);
+  line-height: 1.7;
+  color: rgba(0,0,0,0.45);
   max-width: 52ch;
 }
+
 
 .ctas{
   display: flex;
@@ -76,18 +90,6 @@
   background: #fff;
 }
 
-/* BOTTOM RIGHT STRIP */
-.bottomRight{
-  position: absolute;
-  right: 56px;
-  bottom: 56px;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(0,0,0,0.45);
-  z-index: 2;
-}
-
 /* HALFTONE RING + SLOW PULSE */
 .ring{
   position: absolute;
@@ -106,15 +108,41 @@
 
 @keyframes pulse{
   0%{
-    transform: translate(-50%, -50%) scale(0.965);
-    opacity: 0.22;
+    transform: translate(-50%, -50%) scale(0.765);
+    opacity: 0.32;
   }
   50%{
     transform: translate(-50%, -50%) scale(1.06);
-    opacity: 0.62;
+    opacity: 0.82;
   }
   100%{
-    transform: translate(-50%, -50%) scale(0.965);
-    opacity: 0.22;
+    transform: translate(-50%, -50%) scale(0.765);
+    opacity: 0.32;
+  }
+}
+
+@media (max-width: 1100px){
+  .hero{
+    min-height: auto;
+  }
+
+  .canvas{
+    height: auto;
+    padding: 90px 20px 70px;
+  }
+
+  .left{
+    position: relative;
+    left: auto;
+    bottom: auto;
+    width: 100%;
+  }
+
+  .bottomRight{
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    margin-top: 36px;
   }
 }

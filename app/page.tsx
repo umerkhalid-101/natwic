@@ -1,6 +1,6 @@
-import Link from "next/link"
 import Header from "./components/Header"
 import styles from "./page.module.css"
+import Link from "next/link"
 
 export default function Page() {
   return (
@@ -26,8 +26,8 @@ export default function Page() {
 
             <p className={styles.p}>
               Natwic helps service businesses in the UK and UAE rebuild their brand,
-              website, and digital presence so they look credible, professional,
-              and ready to be hired.
+              website, and digital presence so they look credible, professional, and
+              ready to be hired.
             </p>
 
             <p className={styles.p2}>
@@ -42,12 +42,6 @@ export default function Page() {
               <Link href="/work" className={styles.secondary}>
                 View work
               </Link>
-            </div>
-          </div>
-
-          <div className={styles.bottomRight}>
-            <div className={styles.partnerLabel}>
-              WE HAVE PARTNERED WITH 30+ GLOBAL COMPANIES
             </div>
           </div>
         </div>

@@ -165,7 +165,7 @@
   color: rgba(255,255,255,0.94);
 }
 
-/* grid background */
+/* subtle check grid */
 .socialProof::after{
   content: "";
   position: absolute;
@@ -174,11 +174,11 @@
     linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
   background-size: 48px 48px;
-  z-index: 1;
   pointer-events: none;
+  z-index: 1;
 }
 
-/* typography smoothing */
+/* smoother rendering */
 .socialProof,
 .socialProofInner{
   -webkit-font-smoothing: antialiased;
@@ -188,63 +188,64 @@
 .socialProofInner{
   position: relative;
   z-index: 2;
+  width: 100%;
   max-width: 1100px;
   margin: 0 auto;
   text-align: center;
-
-  opacity: 0;
-  transform: translateY(22px);
-  animation: socialIn 900ms cubic-bezier(.2,.8,.2,1) forwards;
 }
 
-@keyframes socialIn{
-  to{ opacity: 1; transform: translateY(0); }
-}
-
+/* Eyebrow stays subtle */
 .spEyebrow{
+  margin: 0 0 22px 0;
   font-size: 12px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  opacity: .6;
-  margin: 0 0 22px 0;
+  color: rgba(255,255,255,0.62);
 }
 
+/* Headline */
 .spDisplayAggressive{
   margin: 0;
   font-size: clamp(46px, 7.4vw, 124px);
-  line-height: .94;
+  line-height: 0.94;
   letter-spacing: -0.045em;
   font-weight: 520;
-  color: rgba(255,255,255,0.96);
+  color: rgba(255,255,255,0.97);
+
+  transform-origin: center top;
+  will-change: transform, opacity, filter;
 }
 
+/* Accent word */
 .spAccent{
   font-style: italic;
   color: #6b63ff;
-  text-shadow: 0 0 28px rgba(107,99,255,.25);
+  text-shadow: 0 0 26px rgba(107,99,255,0.22);
 }
 
+/* Paragraph */
 .spSubtext{
   margin: 52px auto 0 auto;
   max-width: 66ch;
   font-size: 15.5px;
   line-height: 1.75;
-  letter-spacing: .005em;
-  color: rgba(255,255,255,.74);
+  letter-spacing: 0.005em;
+  color: rgba(255,255,255,0.74);
+  will-change: transform, opacity, filter;
 }
 
 .spRule{
   height: 1px;
-  background: rgba(255,255,255,.12);
+  background: rgba(255,255,255,0.12);
   margin: 52px auto 42px;
   max-width: 920px;
+  width: 100%;
+  opacity: 0.95;
 }
 
-/* =========================
-   LOGO MARQUEE
-========================= */
-
+/* LOGO MARQUEE */
 .logoMarquee{
+  width: 100%;
   max-width: 1100px;
   margin: 30px auto 0;
   overflow: hidden;
@@ -263,6 +264,8 @@
     black 88%,
     transparent 100%
   );
+
+  will-change: transform, opacity, filter;
 }
 
 .logoMarqueeTrack{
@@ -270,6 +273,7 @@
   gap: 16px;
   width: max-content;
   animation: marquee 22s linear infinite;
+  will-change: transform;
 }
 
 @keyframes marquee{
@@ -281,89 +285,106 @@
   height: 70px;
   padding: 16px 20px;
   border-radius: 999px;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 40px rgba(0,0,0,.35);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.35);
 }
 
 .logoImg{
   height: 32px;
   max-width: 190px;
+  display: block;
 }
 
 /* =========================
-   RESPONSIVE
+   SCROLL-REVEAL STAGES
+   0: nothing
+   1: headline
+   2: paragraph + rule
+   3: logos
 ========================= */
 
-@media (max-width: 1100px){
-  .hero{
-    height: auto;
-    min-height: auto;
-  }
-
-  .canvas{
-    height: auto;
-    padding: 90px 20px 70px;
-  }
-
-  .left{
-    position: relative;
-    width: 100%;
-    left: auto;
-    bottom: auto;
-  }
+.socialProof[data-stage="0"] .spDisplayAggressive{
+  opacity: 0;
+  transform: translateY(22px) scale(0.97);
+  filter: blur(12px);
 }
 
-@media (max-width: 700px){
-  .socialProof{
-    padding: 120px 16px;
-  }
-
-  .spDisplayAggressive{
-    font-size: clamp(34px, 10.5vw, 54px);
-    line-height: 1.04;
-  }
-
-  .spSubtext{
-    font-size: 14px;
-    margin-top: 32px;
-    line-height: 1.7;
-    max-width: 34ch;
-  }
-
-  .logoPill{
-    min-width: 160px;
-    height: 56px;
-  }
-
-  .logoImg{
-    height: 24px;
-  }
-
-  .socialProof::after{
-    background-size: 36px 36px;
-  }
+.socialProof[data-stage="0"] .spSubtext,
+.socialProof[data-stage="0"] .spRule,
+.socialProof[data-stage="0"] .logoMarquee{
+  opacity: 0;
+  transform: translateY(16px);
+  filter: blur(12px);
 }
 
-/* =========================
-   ANIMATIONS
-========================= */
-
-@keyframes heroEnter{
-  0%{ opacity: 0; transform: translateY(18px); filter: blur(10px); }
-  100%{ opacity: 1; transform: translateY(0); filter: blur(0); }
+.socialProof[data-stage="1"] .spDisplayAggressive{
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  transition: transform 900ms cubic-bezier(.2,.8,.2,1),
+              opacity 650ms ease,
+              filter 900ms ease;
 }
 
-/* Reduced motion (no global selector here) */
+.socialProof[data-stage="1"] .spSubtext,
+.socialProof[data-stage="1"] .spRule,
+.socialProof[data-stage="1"] .logoMarquee{
+  opacity: 0;
+  transform: translateY(16px);
+  filter: blur(12px);
+}
+
+.socialProof[data-stage="2"] .spDisplayAggressive{
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+.socialProof[data-stage="2"] .spSubtext,
+.socialProof[data-stage="2"] .spRule{
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  transition: transform 800ms cubic-bezier(.2,.8,.2,1),
+              opacity 650ms ease,
+              filter 800ms ease;
+}
+
+.socialProof[data-stage="2"] .logoMarquee{
+  opacity: 0;
+  transform: translateY(16px);
+  filter: blur(12px);
+}
+
+.socialProof[data-stage="3"] .logoMarquee{
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  transition: transform 900ms cubic-bezier(.2,.8,.2,1),
+              opacity 650ms ease,
+              filter 900ms ease;
+}
+
+/* Make sure once stage 3 hits, everything stays visible */
+.socialProof[data-stage="3"] .spDisplayAggressive,
+.socialProof[data-stage="3"] .spSubtext,
+.socialProof[data-stage="3"] .spRule{
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce){
-  .left,
-  .socialProofInner,
-  .logoMarqueeTrack,
-  .scrollDot{
-    animation: none !important;
+  .spDisplayAggressive,
+  .spSubtext,
+  .spRule,
+  .logoMarquee{
+    transition: none !important;
     transform: none !important;
     opacity: 1 !important;
     filter: none !important;

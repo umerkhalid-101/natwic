@@ -3,17 +3,9 @@
 import { useEffect, useRef, useState } from "react"
 import styles from "../page.module.css"
 
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n))
-}
-
 export default function SocialProof() {
   const sectionRef = useRef<HTMLElement | null>(null)
-  const [inView, setInView] = useState(false)
-
-  const [scale, setScale] = useState(0.84)
-  const [y, setY] = useState(30)
-  const [opacity, setOpacity] = useState(0)
+  const [stage, setStage] = useState(0) // 0 none, 1 h1, 2 p, 3 logos
 
   const logos = [
     { name: "ZWILT", src: "/ZWILT.svg" },
@@ -28,44 +20,35 @@ export default function SocialProof() {
     { name: "AXD", src: "/AXD.svg" },
   ]
 
-  useEffect(() => {
-    if (!sectionRef.current) return
-
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setInView(true)
-      },
-      { threshold: 0.12 }
-    )
-
-    obs.observe(sectionRef.current)
-    return () => obs.disconnect()
-  }, [])
+  // duplicate for smooth infinite marquee
+  const marquee = [...logos, ...logos]
 
   useEffect(() => {
-    if (!inView) return
+    const el = sectionRef.current
+    if (!el) return
+
     let raf = 0
 
-    const update = () => {
-      if (!sectionRef.current) return
+    const clamp01 = (n: number) => Math.max(0, Math.min(1, n))
 
-      const rect = sectionRef.current.getBoundingClientRect()
+    const update = () => {
+      const r = el.getBoundingClientRect()
       const vh = window.innerHeight || 1
 
-      const start = vh * 0.95
-      const end = vh * 0.18
-      const raw = (start - rect.top) / (start - end)
-      const p = clamp(raw, 0, 1)
+      // progress = 0 when section top is at bottom of screen
+      // progress = 1 when section top is near top (past header)
+      const start = vh * 0.85
+      const end = vh * 0.20
+      const progress = clamp01((start - r.top) / (start - end))
 
-      const eased = p * p
+      // stages based on progress
+      // tweak these thresholds if you want it earlier/later
+      let nextStage = 0
+      if (progress > 0.38) nextStage = 1  // H1
+      if (progress > 0.72) nextStage = 2  // P1 + rule
+      if (progress > 0.98) nextStage = 3  // logos
 
-      const nextScale = 0.84 + 0.24 * eased
-      const nextY = 30 - 30 * eased
-      const nextOpacity = 0.08 + 0.92 * eased
-
-      setScale(nextScale)
-      setY(nextY)
-      setOpacity(nextOpacity)
+      setStage(nextStage)
     }
 
     const onScroll = () => {
@@ -73,41 +56,34 @@ export default function SocialProof() {
       raf = requestAnimationFrame(update)
     }
 
-    window.addEventListener("scroll", onScroll, { passive: true })
     update()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onScroll)
 
     return () => {
-      window.removeEventListener("scroll", onScroll)
       cancelAnimationFrame(raf)
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onScroll)
     }
-  }, [inView])
-
-  const marqueeLogos = [...logos, ...logos]
+  }, [])
 
   return (
-    <section id="social-proof" ref={sectionRef} className={styles.socialProof}>
+    <section
+      id="social-proof"
+      ref={sectionRef}
+      className={styles.socialProof}
+      data-stage={stage}
+    >
       <div className={styles.socialProofInner}>
         <p className={styles.spEyebrow}>Trusted by</p>
 
-        <h2
-          className={styles.spDisplayAggressive}
-          style={{
-            transform: `translateY(${y}px) scale(${scale})`,
-            opacity,
-          }}
-        >
+        <h2 className={styles.spDisplayAggressive}>
           Service businesses
           <br />
           ready to <span className={styles.spAccent}>move upmarket</span>
         </h2>
 
-        <p
-          className={styles.spSubtext}
-          style={{
-            opacity: clamp(opacity - 0.08, 0, 1),
-            transform: `translateY(${clamp(y * 0.45, 0, 14)}px)`,
-          }}
-        >
+        <p className={styles.spSubtext}>
           Based in the UK and UAE. Working with businesses that value quality and clarity.
         </p>
 
@@ -115,7 +91,7 @@ export default function SocialProof() {
 
         <div className={styles.logoMarquee} aria-label="Client logos">
           <div className={styles.logoMarqueeTrack}>
-            {marqueeLogos.map((logo, idx) => (
+            {marquee.map((logo, idx) => (
               <div className={styles.logoPill} key={`${logo.name}-${idx}`}>
                 <img className={styles.logoImg} src={logo.src} alt={logo.name} />
               </div>

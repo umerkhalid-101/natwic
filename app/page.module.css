@@ -3,13 +3,12 @@
   background: #fff;
 }
 
-/* Hero is a big open canvas */
 .hero{
   position: relative;
   overflow: hidden;
 }
 
-/* Max-width canvas like the reference */
+/* MAIN CANVAS */
 .canvas{
   max-width: 1440px;
   margin: 0 auto;
@@ -18,7 +17,7 @@
   min-height: 78vh;
 }
 
-/* Left block is a fixed column */
+/* LEFT COLUMN — FIXED WIDTH LIKE REFERENCE */
 .left{
   width: 560px;
   position: relative;
@@ -77,60 +76,20 @@
   background: #fff;
 }
 
-/* Bottom-right strip */
+/* BOTTOM RIGHT STRIP */
 .bottomRight{
   position: absolute;
   right: 56px;
-  bottom: 58px;
-  width: 620px;
-  z-index: 2;
-  color: rgba(0,0,0,0.40);
-}
-
-.rating{
-  display: inline-grid;
-  gap: 4px;
-  margin-bottom: 14px;
-}
-
-.ratingMark{
-  font-size: 18px;
-  font-weight: 600;
-  color: rgba(0,0,0,0.55);
-}
-
-.ratingSub{
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.partners{
-  border-top: 1px solid rgba(0,0,0,0.08);
-  padding-top: 14px;
-}
-
-.partnerLabel{
+  bottom: 56px;
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  margin-bottom: 14px;
+  color: rgba(0,0,0,0.45);
+  z-index: 2;
 }
 
-.partnerRow{
-  display: flex;
-  gap: 26px;
-  align-items: center;
-  opacity: 0.45;
-}
-
-.logoGhost{
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-/* Halftone: BIG, centered, pulsing slowly */
-.halftoneWrap{
+/* HALFTONE RING + SLOW PULSE */
+.ring{
   position: absolute;
   left: 58%;
   top: 46%;
@@ -138,50 +97,24 @@
   height: 1100px;
   transform: translate(-50%, -50%);
   pointer-events: none;
+  opacity: 0.40;
+  filter: contrast(1.12);
+  animation: pulse 6.8s ease-in-out infinite;
   z-index: 1;
-  color: rgba(0,0,0,0.18);
-  opacity: 0.20;
-
-  animation: pulse 8.5s ease-in-out infinite;
-}
-
-.halftoneSvg{
-  width: 100%;
-  height: 100%;
-  display: block;
+  will-change: transform, opacity;
 }
 
 @keyframes pulse{
-  0%{ transform: translate(-50%, -50%) scale(0.985); opacity: 0.14; }
-  50%{ transform: translate(-50%, -50%) scale(1); opacity: 0.22; }
-  100%{ transform: translate(-50%, -50%) scale(0.985); opacity: 0.14; }
-}
-
-/* Responsive: keep full width header + adjust canvas */
-@media (max-width: 1100px){
-  .canvas{
-    padding: 110px 20px 70px;
+  0%{
+    transform: translate(-50%, -50%) scale(0.965);
+    opacity: 0.22;
   }
-
-  .left{
-    width: min(560px, 100%);
+  50%{
+    transform: translate(-50%, -50%) scale(1.06);
+    opacity: 0.62;
   }
-
-  .h1{
-    font-size: clamp(44px, 7vw, 72px);
-  }
-
-  .bottomRight{
-    position: static;
-    width: 100%;
-    margin-top: 40px;
-  }
-
-  .halftoneWrap{
-    left: 60%;
-    top: 40%;
-    width: 1200px;
-    height: 1200px;
-    opacity: 0.12;
+  100%{
+    transform: translate(-50%, -50%) scale(0.965);
+    opacity: 0.22;
   }
 }

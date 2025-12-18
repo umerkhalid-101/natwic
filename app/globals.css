@@ -92,3 +92,89 @@ html, body{
     padding: 18px 20px;
   }
 }
+
+.socialProof {
+  padding: clamp(56px, 8vw, 110px) 20px;
+}
+
+.socialProofInner {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.spEyebrow {
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin: 0 0 14px 0;
+}
+
+.spHeading {
+  font-size: clamp(28px, 4.2vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0;
+  font-weight: 500;
+}
+
+.spSubtext {
+  margin: 16px 0 0 0;
+  max-width: 70ch;
+  font-size: 16px;
+  line-height: 1.6;
+  opacity: 0.75;
+}
+
+.spRule {
+  height: 1px;
+  opacity: 0.12;
+  background: currentColor;
+  margin: 34px 0 26px 0;
+}
+
+.spGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 18px 22px;
+}
+
+.spItem {
+  grid-column: span 4;
+}
+
+.spLabel {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 10px;
+}
+
+.spValue {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  opacity: 0.9;
+}
+
+@media (max-width: 900px) {
+  .spItem {
+    grid-column: span 12;
+  }
+}
+
+html { scroll-behavior: smooth; }
+
+
+html, body {
+  height: 100%;
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+  scroll-padding-top: 86px;
+}
+
+section {
+  scroll-snap-align: start;
+}

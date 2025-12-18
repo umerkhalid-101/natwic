@@ -7,11 +7,8 @@
 .hero{
   position: relative;
   overflow: hidden;
-
-  /* make hero a real canvas */
-  min-height: calc(100vh - 86px); /* header height-ish */
+  min-height: calc(100vh - 86px);
 }
-
 
 /* MAIN CANVAS */
 .canvas{
@@ -19,13 +16,10 @@
   margin: 0 auto;
   position: relative;
   height: calc(100vh - 86px);
-
-  /* kill horizontal padding */
   padding-right: 56px;
 }
 
-
-/* LEFT COLUMN — FIXED WIDTH LIKE REFERENCE */
+/* LEFT COLUMN */
 .left{
   width: 640px;
   position: absolute;
@@ -33,8 +27,6 @@
   bottom: 64px;
   z-index: 2;
 }
-
-
 
 .h1{
   margin: 0 0 20px;
@@ -61,7 +53,6 @@
   color: rgba(0,0,0,0.45);
   max-width: 52ch;
 }
-
 
 .ctas{
   display: flex;
@@ -90,7 +81,7 @@
   background: #fff;
 }
 
-/* HALFTONE RING + SLOW PULSE */
+/* HALFTONE RING + PULSE */
 .ring{
   position: absolute;
   left: 58%;
@@ -121,6 +112,7 @@
   }
 }
 
+/* RESPONSIVE */
 @media (max-width: 1100px){
   .hero{
     min-height: auto;
@@ -137,12 +129,213 @@
     bottom: auto;
     width: 100%;
   }
+}
 
-  .bottomRight{
-    position: relative;
-    right: auto;
-    bottom: auto;
-    width: 100%;
-    margin-top: 36px;
+/* SCROLL HINT BUTTON */
+.scrollHint{
+  margin-top: 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.scrollText{
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.scrollDot{
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #6b63ff;
+  box-shadow: 0 0 22px rgba(107, 99, 255, 0.35);
+  animation: bob 1.2s ease-in-out infinite;
+}
+
+@keyframes bob{
+  0%{ transform: translateY(0); opacity: 0.55; }
+  50%{ transform: translateY(6px); opacity: 1; }
+  100%{ transform: translateY(0); opacity: 0.55; }
+}
+
+/* SOCIAL PROOF */
+.socialProof{
+  min-height: 100vh;
+  padding: clamp(160px, 16vw, 260px) 20px;
+  background: #0b0b0d;
+  color: rgba(255, 255, 255, 0.92);
+  scroll-margin-top: 86px;
+  display: flex;
+  align-items: center;
+}
+
+.socialProofInner{
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.spEyebrow{
+  margin: 0 0 22px 0;
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.spDisplayAggressive{
+  margin: 0;
+  font-weight: 520;
+  letter-spacing: -0.05em;
+  line-height: 0.9;              /* slightly more breathing room */
+  font-size: clamp(46px, 7.4vw, 124px);
+  color: rgba(255, 255, 255, 0.97);
+  transform-origin: center top;
+  will-change: transform, opacity;
+}
+
+
+.spAccent{
+  font-style: italic;
+  color: #6b63ff;
+  text-shadow: 0 0 40px rgba(107, 99, 255, 0.30);
+}
+
+.spSubtext{
+  margin: 44px auto 0 auto;      /* THIS is the key change */
+  max-width: 68ch;
+  font-size: 16px;
+  line-height: 2.65;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.spRule{
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 52px auto 42px auto;   /* more space above and below */
+  max-width: 920px;
+}
+
+
+/* LOGO MARQUEE */
+.logoMarquee{
+  margin: 18px auto 0 auto;
+  max-width: 1100px;
+  overflow: hidden;
+  position: relative;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+}
+
+.logoMarqueeTrack{
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+  will-change: transform;
+}
+
+@keyframes marquee{
+  0%{ transform: translateX(0); }
+  100%{ transform: translateX(-50%); }
+}
+
+.logoPill{
+  height: 70px;
+  min-width: 210px;
+  padding: 16px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoImg{
+  height: 32px;
+  width: auto;
+  max-width: 190px;
+  opacity: 0.98;
+}
+
+.logoMarquee:hover .logoMarqueeTrack{
+  animation-play-state: paused;
+}
+
+@media (max-width: 700px){
+  .spDisplayAggressive{
+    line-height: 0.95;
+  }
+
+  .logoPill{
+    min-width: 190px;
+    height: 64px;
+  }
+
+  .logoImg{
+    height: 28px;
+    max-width: 160px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .logoMarqueeTrack{
+    animation: none;
+    transform: none;
+  }
+  .scrollDot{
+    animation: none;
+  }
+}
+
+/* WEBSITE LOAD ANIMATION (HERO CONTENT) */
+.left{
+  animation: heroEnter 900ms cubic-bezier(.2,.8,.2,1) both;
+}
+
+@keyframes heroEnter{
+  0%{
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(10px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Stagger inside hero for extra polish */
+.left .h1{ animation: itemIn 900ms cubic-bezier(.2,.8,.2,1) 60ms both; }
+.left .p{  animation: itemIn 900ms cubic-bezier(.2,.8,.2,1) 140ms both; }
+.left .p2{ animation: itemIn 900ms cubic-bezier(.2,.8,.2,1) 220ms both; }
+.left .ctas{ animation: itemIn 900ms cubic-bezier(.2,.8,.2,1) 300ms both; }
+.left .scrollHint{ animation: itemIn 900ms cubic-bezier(.2,.8,.2,1) 380ms both; }
+
+@keyframes itemIn{
+  0%{ opacity: 0; transform: translateY(14px); filter: blur(8px); }
+  100%{ opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .left, .left .h1, .left .p, .left .p2, .left .ctas, .left .scrollHint{
+    animation: none !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
   }
 }

@@ -1,14 +1,17 @@
 import Header from "./components/Header"
+import SocialProof from "./components/SocialProof"
+import ScrollHint from "./components/ScrollHint"
+import ScrollFix from "./components/ScrollFix"
 import styles from "./page.module.css"
 import Link from "next/link"
 
 export default function Page() {
   return (
     <main className={styles.page}>
+      <ScrollFix />
       <Header />
 
       <section className={styles.hero}>
-        {/* HALFTONE RING */}
         <img
           src="/halftone-ring.svg"
           alt=""
@@ -43,9 +46,13 @@ export default function Page() {
                 View work
               </Link>
             </div>
+
+            <ScrollHint />
           </div>
         </div>
       </section>
+
+      <SocialProof />
     </main>
   )
 }

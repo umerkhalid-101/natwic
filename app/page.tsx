@@ -5,6 +5,7 @@ import SocialProof from "./components/SocialProof"
 import Services from "./components/Services";
 import ScrollHint from "./components/ScrollHint"
 import ScrollFix from "./components/ScrollFix"
+import Portfolio from "./components/Portfolio"
 import styles from "./page.module.css"
 import Link from "next/link"
 
@@ -57,6 +58,7 @@ export default function Page() {
 
       <SocialProof />
       <Services/>
+      <Portfolio />
     </main>
   )
 }

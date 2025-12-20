@@ -173,8 +173,18 @@ export default function Services() {
 
   useEffect(() => {
     const pin = pinRef.current;
-    if (!pin) return;
-    pin.style.height = `${services.length * 100}vh`;
+    const sticky = stickyRef.current;
+    if (!pin || !sticky) return;
+
+    const setHeight = () => {
+      const slides = Math.max(services.length - 1, 1);
+      const perSlide = window.innerHeight * 0.82;
+      pin.style.height = `${sticky.offsetHeight + slides * perSlide}px`;
+    };
+
+    setHeight();
+    window.addEventListener("resize", setHeight);
+    return () => window.removeEventListener("resize", setHeight);
   }, [services.length]);
 
   useEffect(() => {
@@ -272,7 +282,7 @@ export default function Services() {
       if (isPinned()) return;
 
       const start = pin.offsetTop;
-      const total = (services.length - 1) * window.innerHeight;
+      const total = Math.max(pin.offsetHeight - sticky.offsetHeight, 0);
       const p =
         total === 0 ? 0 : clamp((window.scrollY - start) / total, 0, 1);
       targetProgressRef.current = p;
@@ -315,7 +325,7 @@ export default function Services() {
     raf = window.requestAnimationFrame(render);
 
     return () => {
-      sticky.removeEventListener("wheel", onWheel as any);
+      sticky.removeEventListener("wheel", onWheel);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       window.cancelAnimationFrame(raf);
@@ -407,8 +417,8 @@ export default function Services() {
                             opacity,
                             filter: `blur(${blur}px)`,
                             // lift handled by CSS variable so parallax can layer on top
-                            ["--lift" as any]: `${graphicLift}px`,
-                            ["--scale" as any]: `${dist === 0 ? 1 : 0.99}`,
+                            ["--lift"]: `${graphicLift}px`,
+                            ["--scale"]: `${dist === 0 ? 1 : 0.99}`,
                           }}
                           aria-hidden="true"
                         />

@@ -1,8 +1,7 @@
-"use client";
-
 import Header from "./components/Header"
 import SocialProof from "./components/SocialProof"
-import Services from "./components/Services";
+import Services from "./components/Services"
+import Portfolio from "./components/Portfolio"
 import ScrollHint from "./components/ScrollHint"
 import ScrollFix from "./components/ScrollFix"
 import styles from "./page.module.css"
@@ -56,7 +55,8 @@ export default function Page() {
       </section>
 
       <SocialProof />
-      <Services/>
+      <Services />
+      <Portfolio />
     </main>
   )
 }

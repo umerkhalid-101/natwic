@@ -1,6 +1,9 @@
+"use client"
+
 import Header from "./components/Header"
 import SocialProof from "./components/SocialProof"
 import Services from "./components/Services"
+import PortfolioText from "./components/PortfolioText"
 import Portfolio from "./components/Portfolio"
 import ScrollHint from "./components/ScrollHint"
 import ScrollFix from "./components/ScrollFix"
@@ -54,8 +57,16 @@ export default function Page() {
         </div>
       </section>
 
+      {/* Social proof */}
       <SocialProof />
+
+      {/* Services */}
       <Services />
+
+      {/* Portfolio intro section (big text section) */}
+      <PortfolioText />
+
+      {/* Portfolio grid */}
       <Portfolio />
     </main>
   )

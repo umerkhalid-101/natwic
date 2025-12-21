@@ -1,77 +1,72 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import Link from "next/link"
 
+const navItems = ["Services", "Work", "About", "Contact"] as const
+
 export default function Header() {
+  const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 900) setOpen(false)
+    }
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
   return (
-    <header
-      style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 50,
-        width: "100%",
-        background: "rgba(255,255,255,0.86)",
-        backdropFilter: "blur(12px)",
-        borderBottom: "1px solid rgba(0,0,0,0.06)",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1440,
-          margin: "0 auto",
-          height: 60,
-          padding: "0 40px",
-          display: "grid",
-          gridTemplateColumns: "auto 1fr auto",
-          alignItems: "center",
-        }}
-      >
-        {/* LEFT: Logo */}
-        <Link
-          href="/"
-          aria-label="Natwic home"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            lineHeight: 0,
-          }}
-        >
-          <img
-            src="/logo.svg"
-            alt="Natwic"
-            style={{
-              height: 36,
-              width: "auto",
-              display: "block",
-            }}
-          />
+    <header className="siteHeader">
+      <div className="siteHeaderInner">
+        {/* Left: Logo */}
+        <Link href="/" className="siteLogo" aria-label="Home">
+          <img src="/logo.svg" alt="Natwic" className="siteLogoImg" />
         </Link>
 
-        {/* CENTER: Navigation */}
-        <nav
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: 32,
-          }}
-        >
-          {["Services", "Work", "About", "Contact"].map((item) => (
-            <Link
-                key={item}
-                href={`/${item.toLowerCase()}`}
-                className="navLink"
-            >
-                {item}
+        {/* Center: Desktop nav */}
+        <nav className="siteNav" aria-label="Primary navigation">
+          {navItems.map((item) => (
+            <Link key={item} href={`/${item.toLowerCase()}`} className="navLink">
+              {item}
             </Link>
-            ))}
-
+          ))}
         </nav>
 
-        {/* RIGHT: empty column for perfect centering */}
-        <div />
+        {/* Right: reserved space on desktop, menu button on mobile */}
+        <div className="siteHeaderRight">
+          <button
+            className="siteMenuBtn"
+            aria-label="Toggle menu"
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            type="button"
+          >
+            <span className="siteMenuText">Menu</span>
+            <span className="siteMenuIcon" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile dropdown */}
+      <div className={`mobileNavPanel ${open ? "isOpen" : ""}`}>
+        <nav className="mobileNav" aria-label="Mobile navigation">
+          {navItems.map((item) => (
+            <Link
+              key={item}
+              href={`/${item.toLowerCase()}`}
+              className="mobileNavLink"
+              onClick={() => setOpen(false)}
+            >
+              {item}
+            </Link>
+          ))}
+        </nav>
       </div>
     </header>
   )
 }
-
-

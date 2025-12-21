@@ -1,0 +1,228 @@
+.wrap {
+  position: relative;
+  width: 100%;
+  min-height: 115svh;
+  overflow: hidden;
+  isolation: isolate;
+
+  --pScale: 1;
+  --pOpacity: 1;
+  --pBlur: 0px;
+  --pY: 0px;
+  --cueO: 1;
+}
+
+/* Ambient background */
+.bg {
+  position: absolute;
+  inset: -30% -20%;
+  background:
+    radial-gradient(circle at 22% 28%, rgba(112, 63, 236, 0.22), transparent 56%),
+    radial-gradient(circle at 78% 30%, rgba(0, 0, 0, 0.06), transparent 62%),
+    radial-gradient(circle at 42% 88%, rgba(112, 63, 236, 0.14), transparent 60%),
+    linear-gradient(180deg, #ffffff, #fafaff);
+  filter: blur(22px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Sticky stage */
+.sticky {
+  position: sticky;
+  top: 0;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+/* Animated content */
+.inner {
+  max-width: 1180px;
+  width: 100%;
+  padding: 0 24px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  opacity: var(--pOpacity);
+  transform: translate3d(0, var(--pY), 0) scale(var(--pScale));
+  filter: blur(var(--pBlur));
+  transform-origin: center;
+  will-change: transform, opacity, filter;
+}
+
+/* Typography */
+.title {
+  margin: 0;
+  font-size: clamp(56px, 8.5vw, 120px);
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+  font-weight: 850;
+}
+
+.black {
+  color: rgba(10, 10, 10, 0.94);
+}
+
+.accent {
+  color: #703fec;
+  font-style: italic;
+  text-shadow: 0 0 26px rgba(112, 63, 236, 0.22);
+}
+
+.sub {
+  margin-top: 18px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(10, 10, 10, 0.55);
+}
+
+/* Scroll cue */
+.cue {
+  margin-top: 26px;
+  width: 180px;
+  height: 16px;
+  position: relative;
+  opacity: var(--cueO);
+}
+
+.cueLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  transform: translateY(-50%);
+  background: rgba(10, 10, 10, 0.12);
+}
+
+.cueDot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: rgba(112, 63, 236, 0.4);
+}
+
+/* =========================
+   TOP BLUR (EASED + LOWER)
+   ========================= */
+.wrap::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 140px;
+  pointer-events: none;
+  z-index: 2;
+
+  background: linear-gradient(
+    to top,
+    rgba(250, 250, 255, 0) 0%,
+    rgba(250, 250, 255, 0.25) 45%,
+    rgba(250, 250, 255, 0.6) 75%,
+    rgba(250, 250, 255, 0.9) 100%
+  );
+
+  filter: blur(8px);
+  transform: translateY(-18px);
+}
+
+/* =========================
+   BOTTOM BLUR (UNCHANGED)
+   ========================= */
+.wrap::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 220px;
+  pointer-events: none;
+  z-index: 2;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(250, 250, 255, 0) 0%,
+    rgba(250, 250, 255, 0.55) 35%,
+    rgba(250, 250, 255, 0.92) 70%,
+    rgba(250, 250, 255, 1) 100%
+  );
+
+  filter: blur(14px);
+  transform: translateY(28px);
+}
+
+/* =========================
+   MOBILE FIXES
+   - Better safe-area behavior
+   - Sticky fallback if iOS acts up
+   - Prevent giant scaling blowouts
+   ========================= */
+@media (max-width: 720px) {
+  .wrap {
+    min-height: 110svh;
+  }
+
+  .inner {
+    padding: 0 16px;
+  }
+
+  .title {
+    font-size: clamp(42px, 11vw, 78px);
+    line-height: 0.95;
+  }
+
+  .sub {
+    max-width: 28ch;
+  }
+
+  .cue {
+    width: 140px;
+  }
+
+  .wrap::before {
+    height: 110px;
+    filter: blur(6px);
+    transform: translateY(-14px);
+  }
+
+  .wrap::after {
+    height: 180px;
+    filter: blur(12px);
+    transform: translateY(22px);
+  }
+
+  /* If your scale is huge, this prevents the text from clipping off-screen */
+  .inner {
+    transform-origin: center;
+  }
+}
+
+/* Tablet */
+@media (max-width: 980px) {
+  .title {
+    font-size: clamp(48px, 9vw, 100px);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .wrap {
+    min-height: 100svh;
+  }
+
+  .inner {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
